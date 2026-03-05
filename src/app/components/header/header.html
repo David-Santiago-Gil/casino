@@ -1,0 +1,21 @@
+<header class="main-header glass">
+  <div class="container d-flex align-items-center justify-content-between h-100">
+    <div class="logo d-flex gap-2 align-items-center" (click)="scrollTo('hero')">
+      <span class="neon-text">NEON</span>
+      <span class="royale-text">ROYALE</span>
+    </div>
+
+    <nav class="nav-menu d-none d-lg-flex gap-4">
+      <a (click)="scrollTo('hero')">Inicio</a>
+      <a (click)="scrollTo('juegos')">Juegos</a>
+      <a (click)="scrollTo('promociones')">Promociones</a>
+      <a (click)="scrollTo('contacto')">Contacto</a>
+    </nav>
+
+    <div class="auth-buttons d-flex gap-3">
+      <button class="btn btn-outline-light btn-sm px-3" (click)="openLogin.emit()">Login</button>
+      <button class="btn btn-warning btn-sm px-3 shadow-sm text-dark fw-bold"
+        (click)="openRegister.emit()">Register</button>
+    </div>
+  </div>
+</header>

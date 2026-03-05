@@ -5,17 +5,21 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:neon-royale-casino": "node dist/neon-royale-casino/server/server.mjs"
+    "serve:ssr:neon-royale-casino": "node dist/neon-royale-casino/server/server.mjs",
+    "deploy": "ng build --configuration production --base-href=/casino/ && npx angular-cli-ghpages --dir=dist/neon-royale-casino/browser"
   },
   "private": true,
   "packageManager": "npm@11.9.0",
   "dependencies": {
+    "@angular/cdk": "^21.2.1",
     "@angular/common": "^21.2.0",
     "@angular/compiler": "^21.2.0",
     "@angular/core": "^21.2.0",
     "@angular/forms": "^21.2.0",
+    "@angular/material": "^21.2.1",
     "@angular/platform-browser": "^21.2.0",
     "@angular/platform-server": "^21.2.0",
     "@angular/router": "^21.2.0",

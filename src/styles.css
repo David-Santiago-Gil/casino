@@ -14,3 +14,11 @@ body {
   --gold-luxury: #C9A84C;
   --header-height: 80px;
 }
+
+.parallax-bg-1 {
+  background-image: url('/img/3.jpg');
+}
+
+.parallax-bg-2 {
+  background-image: url('/img/1.jpg');
+}

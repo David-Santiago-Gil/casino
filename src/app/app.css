@@ -179,7 +179,6 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;

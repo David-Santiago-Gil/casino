@@ -8,7 +8,7 @@
             <p class="hero-subtitle">The Ultimate Gaming Distinction</p>
             <div class="hero-buttons">
                 <button class="btn btn-luxury" (click)="scrollTo('galeria')">EXPLORAR SALAS</button>
-                <button class="btn btn-outline-luxury">MEMBRESIA VIP</button>
+                <button class="btn btn-outline-luxury" (click)="scrollTo('promociones')">MEMBRESIA VIP</button>
             </div>
         </div>
         <div class="hero-background"></div>
@@ -27,7 +27,7 @@
                 @for (room of gameRooms; track $index) {
                 <div class="room-card-wrapper reveal-on-scroll">
                     <div class="room-card">
-                        <div class="room-image" [style.background]="room.bgColor">
+                        <div class="room-image" [style.backgroundImage]="'url(' + room.image + ')'">
                             <div class="room-pattern"></div>
                             <div class="room-overlay"></div>
                             <div class="room-content">
@@ -67,7 +67,7 @@
                 @for (game of gameCards; track $index) {
                 <div class="game-card-item reveal-on-scroll">
                     <div class="game-card">
-                        <div class="game-image" [style.background]="game.bgColor">
+                        <div class="game-image" [style.backgroundImage]="'url(' + game.image + ')'">
                             <div class="game-badge">{{game.badge}}</div>
                             <div class="game-overlay">
                                 <button class="btn-play-game">JUGAR</button>
@@ -78,7 +78,8 @@
                             <h4>{{game.title}}</h4>
                             <div class="game-rating">
                                 @for (star of [1,2,3,4,5]; track star) {
-                                <i class="bi" [class.bi-star-fill]="star <= game.rating" [class.bi-star]="star > game.rating" [class.active]="star <= game.rating"></i>
+                                <i class="bi" [class.bi-star-fill]="star <= game.rating"
+                                    [class.bi-star]="star > game.rating" [class.active]="star <= game.rating"></i>
                                 }
                             </div>
                         </div>
@@ -103,18 +104,41 @@
         <div class="container">
             <div class="promo-content reveal-on-scroll">
                 <div class="promo-text">
-                    <h2>BIENVENIDA MAGISTRAL</h2>
-                    <p>Accede a un paquete de bonificación exclusivo de hasta <span class="highlight">$10,000</span></p>
-                    <ul class="promo-list">
-                        <li><i class="bi bi-check-lg"></i> Bono de bienvenida 100% hasta $5,000</li>
-                        <li><i class="bi bi-check-lg"></i> 50 giros gratis en juegos seleccionados</li>
-                        <li><i class="bi bi-check-lg"></i> Acceso VIP a salas privadas</li>
-                        <li><i class="bi bi-check-lg"></i> Soporte 24/7 dedicado</li>
-                    </ul>
-                    <button class="btn btn-luxury">RECLAMAR AHORA</button>
+                    <div class="vip-badge">STATUS ELITE</div>
+                    <h2 class="premium-title">BIENVENIDA <span class="gold-text">MAGISTRAL</span></h2>
+                    <p class="premium-description">Diseñado exclusivamente para conocedores del lujo. Eleva tu
+                        experiencia al nivel más alto de distinción en el mundo del gaming.</p>
+
+                    <div class="promo-benefits">
+                        <div class="benefit-item">
+                            <div class="benefit-icon"><i class="bi bi-gem"></i></div>
+                            <div class="benefit-info">
+                                <h4>Paquete de Bienvenida</h4>
+                                <p>Bono del 100% hasta <span class="highlight">$10,000</span></p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon"><i class="bi bi-stars"></i></div>
+                            <div class="benefit-info">
+                                <h4>Cortesías VIP</h4>
+                                <p>50 giros de cortesía en slots de alta gama</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon"><i class="bi bi-shield-check"></i></div>
+                            <div class="benefit-info">
+                                <h4>Acceso Prioritario</h4>
+                                <p>Salas privadas y concierge dedicado 24/7</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-luxury-glow">RECLAMAR MEMBRESÍA</button>
                 </div>
                 <div class="promo-image">
-                    <div class="promo-visual"></div>
+                    <div class="promo-visual-liquid">
+                        <div class="liquid-overlay"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -126,7 +150,8 @@
             <div class="contact-wrapper reveal-on-scroll">
                 <div class="contact-info">
                     <h2>CONCIERGE VIP</h2>
-                    <p>Nuestro equipo de soporte de alta prioridad está disponible 24/7 para garantizar tu experiencia perfecta.</p>
+                    <p>Nuestro equipo de soporte de alta prioridad está disponible 24/7 para garantizar tu experiencia
+                        perfecta.</p>
                     <div class="contact-details">
                         <div class="detail-item">
                             <span class="icon"><i class="bi bi-envelope"></i></span>
@@ -154,15 +179,31 @@
 
                 <form class="contact-form">
                     <div class="form-group">
-                        <input type="text" class="form-input" placeholder="NOMBRE COMPLETO" required>
+                        <input type="text" class="form-input" [class.input-error]="contactErrors().name"
+                            [value]="contactData.name()" (input)="contactData.name.set($any($event.target).value)"
+                            placeholder="NOMBRE COMPLETO" required>
+                        @if (contactErrors().name) {
+                        <span class="error-msg">{{contactErrors().name}}</span>
+                        }
                     </div>
                     <div class="form-group">
-                        <input type="email" class="form-input" placeholder="CORREO ELECTRÓNICO" required>
+                        <input type="email" class="form-input" [class.input-error]="contactErrors().email"
+                            [value]="contactData.email()" (input)="contactData.email.set($any($event.target).value)"
+                            placeholder="CORREO ELECTRÓNICO" required>
+                        @if (contactErrors().email) {
+                        <span class="error-msg">{{contactErrors().email}}</span>
+                        }
                     </div>
                     <div class="form-group">
-                        <textarea class="form-input" rows="5" placeholder="TU MENSAJE" required></textarea>
+                        <textarea class="form-input" rows="5" [class.input-error]="contactErrors().message"
+                            [value]="contactData.message()" (input)="contactData.message.set($any($event.target).value)"
+                            placeholder="TU MENSAJE" required></textarea>
+                        @if (contactErrors().message) {
+                        <span class="error-msg">{{contactErrors().message}}</span>
+                        }
                     </div>
-                    <button type="button" class="btn btn-luxury w-100" (click)="enviarContacto()">ENVIAR MENSAJE</button>
+                    <button type="button" class="btn btn-luxury w-100" (click)="enviarContacto()">ENVIAR
+                        MENSAJE</button>
                 </form>
             </div>
         </div>
@@ -176,9 +217,73 @@
         <button class="modal-close" (click)="showLogin.set(false)"><i class="bi bi-x-lg"></i></button>
         <h2 class="modal-title">ACCESO EXCLUSIVO</h2>
         <form class="modal-form">
-            <input type="text" class="form-input" placeholder="USUARIO" required>
-            <input type="password" class="form-input" placeholder="CONTRASEÑA" required>
-            <button type="button" class="btn btn-luxury w-100" (click)="showLogin.set(false)">AUTENTICAR</button>
+            <div class="form-group">
+                <input type="text" class="form-input" [class.input-error]="loginErrors().user"
+                    [value]="loginData.user()" (input)="loginData.user.set($any($event.target).value)"
+                    placeholder="USUARIO" required>
+                @if (loginErrors().user) {
+                <span class="error-msg">{{loginErrors().user}}</span>
+                }
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-input" [class.input-error]="loginErrors().pass"
+                    [value]="loginData.pass()" (input)="loginData.pass.set($any($event.target).value)"
+                    placeholder="CONTRASEÑA" required>
+                @if (loginErrors().pass) {
+                <span class="error-msg">{{loginErrors().pass}}</span>
+                }
+            </div>
+            <button type="button" class="btn btn-luxury w-100" (click)="autenticar()">AUTENTICAR</button>
+        </form>
+    </div>
+</div>
+}
+
+<!-- REGISTER MODAL -->
+@if (showRegister()) {
+<div class="modal-overlay" (click)="showRegister.set(false)">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <button class="modal-close" (click)="showRegister.set(false)"><i class="bi bi-x-lg"></i></button>
+        <h2 class="modal-title">REGISTRO VIP</h2>
+        <form class="modal-form">
+            <div class="form-group">
+                <input type="text" class="form-input" [class.input-error]="regErrors().name" [value]="regData.name()"
+                    (input)="regData.name.set($any($event.target).value)" placeholder="NOMBRE COMPLETO" required>
+                @if (regErrors().name) {
+                <span class="error-msg">{{regErrors().name}}</span>
+                }
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-input" [class.input-error]="regErrors().email" [value]="regData.email()"
+                    (input)="regData.email.set($any($event.target).value)" placeholder="CORREO ELECTRÓNICO" required>
+                @if (regErrors().email) {
+                <span class="error-msg">{{regErrors().email}}</span>
+                }
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-input" [class.input-error]="regErrors().user" [value]="regData.user()"
+                    (input)="regData.user.set($any($event.target).value)" placeholder="USUARIO" required>
+                @if (regErrors().user) {
+                <span class="error-msg">{{regErrors().user}}</span>
+                }
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-input" [class.input-error]="regErrors().pass"
+                    [value]="regData.pass()" (input)="regData.pass.set($any($event.target).value)"
+                    placeholder="CONTRASEÑA" required>
+                @if (regErrors().pass) {
+                <span class="error-msg">{{regErrors().pass}}</span>
+                }
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-input" [class.input-error]="regErrors().confirmPass"
+                    [value]="regData.confirmPass()" (input)="regData.confirmPass.set($any($event.target).value)"
+                    placeholder="CONFIRMAR CONTRASEÑA" required>
+                @if (regErrors().confirmPass) {
+                <span class="error-msg">{{regErrors().confirmPass}}</span>
+                }
+            </div>
+            <button type="button" class="btn btn-luxury w-100" (click)="crearCuenta()">CREAR CUENTA</button>
         </form>
     </div>
 </div>
